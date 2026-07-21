@@ -1,0 +1,9 @@
+.venv/
+node_modules/
+__pycache__/
+*.pyc
+frontend/vendor/
+frontend/models/
+data/photos/*
+data/*.db
+!data/photos/.gitkeep

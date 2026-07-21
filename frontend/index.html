@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Facial Metrics (local-only)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="disclaimerBanner" class="disclaimer" role="note">
+    <div class="disclaimer-text">
+      <strong>What this tool does — and doesn't do.</strong>
+      This measures geometric facial proportions only. These numbers are not a measure of
+      attractiveness, health, or personal worth, and there is no single "ideal" face — the
+      reference ranges shown are figures commonly cited in proportion/aesthetic literature, not a
+      scientific consensus or a target to hit. Apps like this can contribute to unhealthy
+      self-focus if checked often or obsessively; if you notice that happening, consider taking a
+      break.
+    </div>
+    <button id="disclaimerToggle" type="button" class="disclaimer-toggle">Minimize</button>
+  </div>
+
+  <header class="topbar">
+    <h1>Facial Metrics — local-only</h1>
+    <p class="subtitle">Landmark detection, geometric measurements, and style suggestions. Runs entirely on this machine — nothing is saved unless you choose to save it.</p>
+  </header>
+
+  <main>
+    <section class="controls">
+      <button id="startWebcam" type="button">Start webcam</button>
+      <button id="capture" type="button" disabled>Capture photo</button>
+      <label class="file-btn">
+        Upload photo
+        <input id="fileInput" type="file" accept="image/*" />
+      </label>
+      <span id="status" class="status">Idle</span>
+    </section>
+
+    <section class="stage">
+      <video id="video" autoplay playsinline muted></video>
+      <canvas id="overlay"></canvas>
+    </section>
+
+    <section class="review" id="reviewSection" hidden>
+      <h2>Review photo</h2>
+      <p class="results-intro">
+        This is the exact photo that will be analyzed. Submit it to compute measurements, or
+        retake / choose another first.
+      </p>
+      <img id="reviewImg" alt="Photo to submit for analysis" />
+      <div class="review-actions">
+        <button id="submitBtn" type="button">Submit for analysis</button>
+        <button id="retakeBtn" type="button">Retake / choose another</button>
+      </div>
+    </section>
+
+    <section class="save-bar">
+      <input id="saveNote" type="text" placeholder="Optional note (e.g. 'new haircut')" maxlength="120" />
+      <button id="saveResultBtn" type="button" disabled>Save this result</button>
+      <span id="saveStatus" class="status"></span>
+    </section>
+
+    <section class="results" id="resultsSection">
+      <div id="refreshingIndicator" class="refreshing" hidden>
+        <span class="spinner" aria-hidden="true"></span>
+        Refreshing measurements for the submitted photo…
+      </div>
+
+      <nav class="tabs" role="tablist">
+        <button type="button" class="tab-btn active" data-tab="measurements" role="tab" aria-selected="true">Measurements</button>
+        <button type="button" class="tab-btn" data-tab="style" role="tab" aria-selected="false">Style suggestions</button>
+        <button type="button" class="tab-btn" data-tab="history" role="tab" aria-selected="false">History</button>
+      </nav>
+
+      <div class="tab-panel" id="panel-measurements" role="tabpanel">
+        <h2>Measurements</h2>
+        <p class="results-intro">
+          Each value below is shown next to a commonly-cited reference range, described neutrally
+          — not scored, ranked, or combined into a single number.
+        </p>
+        <div id="resultsGroups">
+          <p class="empty-state">Capture a webcam frame or upload a photo, then submit it to see measurements here.</p>
+        </div>
+        <details class="raw-output">
+          <summary>View raw data (JSON)</summary>
+          <pre id="metricsOutput"></pre>
+        </details>
+      </div>
+
+      <div class="tab-panel" id="panel-style" role="tabpanel" hidden>
+        <h2>Style suggestions</h2>
+        <p class="results-intro">
+          Additive style ideas based on face shape — separate from the measurements tab, and not
+          corrections for anything shown there. Nothing here implies that anything needs to
+          change.
+        </p>
+        <div id="faceShapeSummary">
+          <p class="empty-state">Capture a webcam frame or upload a photo, then submit it to see style suggestions here.</p>
+        </div>
+        <div id="styleGroups"></div>
+      </div>
+
+      <div class="tab-panel" id="panel-history" role="tabpanel" hidden>
+        <h2>History</h2>
+        <p class="results-intro">
+          Saving is optional and per-photo — nothing is stored unless you click "Save this
+          result" above. This is a plain log of snapshots, not a score or trend tracker.
+        </p>
+        <div class="history-controls">
+          <button id="refreshHistory" type="button">Refresh</button>
+          <button id="deleteAllData" type="button" class="danger-btn">Delete all my data</button>
+        </div>
+        <div id="historyList" class="history-list"></div>
+        <div id="historyDetail" class="history-detail" hidden>
+          <button id="closeHistoryDetail" type="button">Close</button>
+          <img id="historyDetailPhoto" alt="Saved photo" />
+          <p id="historyDetailMeta" class="history-detail-meta"></p>
+          <h3>Measurements</h3>
+          <div id="historyDetailMeasurements"></div>
+          <h3>Style suggestions</h3>
+          <div id="historyDetailShapeSummary"></div>
+          <div id="historyDetailStyleGroups"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="disclaimer.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
