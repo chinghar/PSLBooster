@@ -54,13 +54,13 @@
       </div>
     </section>
 
-    <section class="save-bar">
+    <section class="save-bar" id="saveBar" hidden>
       <input id="saveNote" type="text" placeholder="Optional note (e.g. 'new haircut')" maxlength="120" />
       <button id="saveResultBtn" type="button" disabled>Save this result</button>
       <span id="saveStatus" class="status"></span>
     </section>
 
-    <section class="results" id="resultsSection">
+    <section class="results" id="resultsSection" hidden>
       <div id="refreshingIndicator" class="refreshing" hidden>
         <span class="spinner" aria-hidden="true"></span>
         Refreshing measurements for the submitted photo…

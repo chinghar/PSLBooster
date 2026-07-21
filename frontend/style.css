@@ -273,6 +273,8 @@ button:not(:disabled):hover, .file-btn:hover { border-color: var(--accent); }
   font-size: 0.85rem;
 }
 
+.refreshing[hidden] { display: none; }
+
 .spinner {
   width: 14px;
   height: 14px;
@@ -299,6 +301,8 @@ button:not(:disabled):hover, .file-btn:hover { border-color: var(--accent); }
   border: 1px solid var(--border);
   border-radius: 10px;
 }
+
+.save-bar[hidden] { display: none; }
 
 .save-bar input[type="text"] {
   flex: 1;

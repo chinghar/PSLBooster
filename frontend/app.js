@@ -24,6 +24,8 @@ const styleGroups = document.getElementById("styleGroups");
 const tabButtons = document.querySelectorAll(".tab-btn");
 const tabPanels = document.querySelectorAll(".tab-panel");
 const refreshingIndicator = document.getElementById("refreshingIndicator");
+const resultsSection = document.getElementById("resultsSection");
+const saveBar = document.getElementById("saveBar");
 
 const reviewSection = document.getElementById("reviewSection");
 const reviewImg = document.getElementById("reviewImg");
@@ -106,6 +108,8 @@ submitBtn.addEventListener("click", async () => {
   if (!pendingLandmarks || !pendingDimensions || !pendingPhotoBlob) return;
   submitBtn.disabled = true;
   retakeBtn.disabled = true;
+  resultsSection.hidden = false;
+  saveBar.hidden = false;
   refreshingIndicator.hidden = false;
   // Yield to the browser so the "refreshing" indicator actually paints
   // before the (synchronous, near-instant) recomputation runs.
