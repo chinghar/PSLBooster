@@ -1,13 +1,15 @@
 """
 Local-only server for the facial metrics app.
 
-Serves the static frontend on localhost and exposes small endpoints for
+Serves the built frontend (frontend/ is bundled by Vite into ../dist — run
+`npm run build` first) on localhost, and exposes small endpoints for
 saving/listing/viewing/deleting locally-stored results (photo + the metrics
 and face-shape JSON already computed in the browser). No external network
 calls are made by this process — everything is written to and read from
 ./data on disk.
 """
 import json
+import sys
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
@@ -19,9 +21,15 @@ from fastapi.staticfiles import StaticFiles
 from .db import get_conn, init_db
 
 ROOT = Path(__file__).resolve().parent.parent
-FRONTEND_DIR = ROOT / "frontend"
+DIST_DIR = ROOT / "dist"
 PHOTOS_DIR = ROOT / "data" / "photos"
 PHOTOS_DIR.mkdir(parents=True, exist_ok=True)
+
+if not (DIST_DIR / "index.html").exists():
+    sys.exit(
+        "dist/index.html not found. Build the frontend first: `npm run build` "
+        "(or `./scripts/setup.sh`, which does this for you)."
+    )
 
 init_db()
 
@@ -127,4 +135,4 @@ def delete_all_entries():
 
 
 # Mounted last so /api routes above take precedence.
-app.mount("/", StaticFiles(directory=FRONTEND_DIR, html=True), name="frontend")
+app.mount("/", StaticFiles(directory=DIST_DIR, html=True), name="frontend")

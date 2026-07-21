@@ -2,8 +2,8 @@
 node_modules/
 __pycache__/
 *.pyc
-frontend/vendor/
-frontend/models/
+dist/
+frontend/public/vendor/
 data/photos/*
 data/*.db
 !data/photos/.gitkeep

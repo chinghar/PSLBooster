@@ -1,8 +1,18 @@
 {
-  "name": "facial-analysis-app-setup",
+  "name": "facial-analysis-app",
   "private": true,
-  "description": "Used only to fetch @mediapipe/tasks-vision locally during setup. Not served or required at runtime.",
+  "type": "module",
+  "scripts": {
+    "predev": "node scripts/copy-mediapipe-wasm.mjs",
+    "dev": "vite",
+    "prebuild": "node scripts/copy-mediapipe-wasm.mjs",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
   "dependencies": {
     "@mediapipe/tasks-vision": "^0.10.20"
+  },
+  "devDependencies": {
+    "vite": "^8.1.5"
   }
 }

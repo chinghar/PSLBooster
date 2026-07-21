@@ -1,7 +1,9 @@
-// Phase 1: landmark detection proof of concept only.
 // Everything below runs entirely in the browser via local WASM + a local
 // model file — no network requests are made once the page has loaded.
-import { FaceLandmarker, FilesetResolver } from "./vendor/mediapipe/vision_bundle.mjs";
+// @mediapipe/tasks-vision is bundled by Vite from node_modules; the WASM
+// runtime and model file are static passthrough assets served from
+// frontend/public/ (see vite.config.js).
+import { FaceLandmarker, FilesetResolver } from "@mediapipe/tasks-vision";
 import { computeMetrics } from "./metrics.js";
 import { renderResults } from "./results.js";
 import { classifyFaceShape } from "./faceShape.js";
@@ -268,10 +270,10 @@ function setStatus(text) {
 
 async function initLandmarker() {
   setStatus("Loading MediaPipe (local, offline)...");
-  const filesetResolver = await FilesetResolver.forVisionTasks("./vendor/mediapipe/wasm");
+  const filesetResolver = await FilesetResolver.forVisionTasks("/vendor/mediapipe/wasm");
   faceLandmarker = await FaceLandmarker.createFromOptions(filesetResolver, {
     baseOptions: {
-      modelAssetPath: "./models/face_landmarker.task",
+      modelAssetPath: "/models/face_landmarker.task",
       delegate: "GPU",
     },
     outputFaceBlendshapes: false,
