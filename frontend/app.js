@@ -28,6 +28,8 @@ const tabPanels = document.querySelectorAll(".tab-panel");
 const refreshingIndicator = document.getElementById("refreshingIndicator");
 const resultsSection = document.getElementById("resultsSection");
 const saveBar = document.getElementById("saveBar");
+const resetBar = document.getElementById("resetBar");
+const newPhotoBtn = document.getElementById("newPhotoBtn");
 
 const reviewSection = document.getElementById("reviewSection");
 const reviewImg = document.getElementById("reviewImg");
@@ -114,6 +116,7 @@ submitBtn.addEventListener("click", async () => {
   retakeBtn.disabled = true;
   resultsSection.hidden = false;
   saveBar.hidden = false;
+  resetBar.hidden = false;
   refreshingIndicator.hidden = false;
   // Yield to the browser so the "refreshing" indicator actually paints
   // before the (synchronous, near-instant) recomputation runs.
@@ -140,6 +143,38 @@ retakeBtn.addEventListener("click", () => {
   fileInput.value = "";
   setStatus('Discarded. Click "Start webcam" or "Upload photo" to try another.');
 });
+
+function resetToHome() {
+  clearReview();
+  resultsSection.hidden = true;
+  saveBar.hidden = true;
+  resetBar.hidden = true;
+
+  // Default back to the Measurements tab for the next submission.
+  for (const b of tabButtons) {
+    const isDefault = b.dataset.tab === "measurements";
+    b.classList.toggle("active", isDefault);
+    b.setAttribute("aria-selected", isDefault ? "true" : "false");
+  }
+  for (const panel of tabPanels) {
+    panel.hidden = panel.id !== "panel-measurements";
+  }
+
+  lastPhotoBlob = null;
+  lastMetrics = null;
+  lastFaceShape = null;
+  saveResultBtn.disabled = true;
+  saveNote.value = "";
+  saveStatus.textContent = "";
+
+  fileInput.value = "";
+  video.style.display = "block";
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  setStatus('Ready for a new photo — click "Start webcam" or "Upload photo".');
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+newPhotoBtn.addEventListener("click", resetToHome);
 
 for (const btn of tabButtons) {
   btn.addEventListener("click", () => {
