@@ -5,7 +5,8 @@
 // frontend/public/ (see vite.config.js).
 import { FaceLandmarker, FilesetResolver } from "@mediapipe/tasks-vision";
 import { computeMetrics } from "./metrics.js";
-import { renderResults } from "./results.js";
+import { renderResults, renderCompositeScore } from "./results.js";
+import { computeCompositeScore } from "./compositeScore.js";
 import { classifyFaceShape } from "./faceShape.js";
 import { getRecommendations } from "./recommendations.js";
 import { renderFaceShapeSummary, renderStyleRecommendations } from "./styleResults.js";
@@ -19,6 +20,7 @@ const fileInput = document.getElementById("fileInput");
 const statusEl = document.getElementById("status");
 const metricsOutput = document.getElementById("metricsOutput");
 const resultsGroups = document.getElementById("resultsGroups");
+const compositeScoreContainer = document.getElementById("compositeScoreContainer");
 const faceShapeSummary = document.getElementById("faceShapeSummary");
 const styleGroups = document.getElementById("styleGroups");
 const tabButtons = document.querySelectorAll(".tab-btn");
@@ -43,6 +45,7 @@ const historyDetail = document.getElementById("historyDetail");
 const historyDetailPhoto = document.getElementById("historyDetailPhoto");
 const historyDetailMeta = document.getElementById("historyDetailMeta");
 const historyDetailMeasurements = document.getElementById("historyDetailMeasurements");
+const historyDetailCompositeScore = document.getElementById("historyDetailCompositeScore");
 const historyDetailShapeSummary = document.getElementById("historyDetailShapeSummary");
 const historyDetailStyleGroups = document.getElementById("historyDetailStyleGroups");
 const closeHistoryDetailBtn = document.getElementById("closeHistoryDetail");
@@ -91,6 +94,7 @@ function processDetection(landmarks, width, height) {
   console.log("Facial metrics (raw):", metrics);
   metricsOutput.textContent = JSON.stringify(metrics, null, 2);
   renderResults(metrics, resultsGroups);
+  renderCompositeScore(computeCompositeScore(metrics), compositeScoreContainer);
   lastMetrics = metrics;
 
   const faceShape = classifyFaceShape(landmarks, width, height);
@@ -239,6 +243,7 @@ async function viewHistoryEntry(id) {
   historyDetailMeta.textContent = entry.note ? `${when} — ${entry.note}` : when;
 
   renderResults(entry.metrics, historyDetailMeasurements);
+  renderCompositeScore(computeCompositeScore(entry.metrics), historyDetailCompositeScore);
   renderFaceShapeSummary(entry.face_shape, historyDetailShapeSummary);
   renderStyleRecommendations(getRecommendations(entry.face_shape.id), historyDetailStyleGroups);
 

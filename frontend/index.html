@@ -10,12 +10,12 @@
   <div id="disclaimerBanner" class="disclaimer" role="note">
     <div class="disclaimer-text">
       <strong>What this tool does — and doesn't do.</strong>
-      This measures geometric facial proportions only. These numbers are not a measure of
-      attractiveness, health, or personal worth, and there is no single "ideal" face — the
-      reference ranges shown are figures commonly cited in proportion/aesthetic literature, not a
-      scientific consensus or a target to hit. Apps like this can contribute to unhealthy
-      self-focus if checked often or obsessively; if you notice that happening, consider taking a
-      break.
+      This measures geometric facial proportions only. These numbers, including the compiled
+      score at the bottom of the Measurements tab, are not a measure of attractiveness, health, or
+      personal worth, and there is no single "ideal" face — the reference ranges shown are figures
+      commonly cited in proportion/aesthetic literature, not a scientific consensus or a target to
+      hit. Apps like this can contribute to unhealthy self-focus if checked often or obsessively;
+      if you notice that happening, consider taking a break.
     </div>
     <button id="disclaimerToggle" type="button" class="disclaimer-toggle">Minimize</button>
   </div>
@@ -75,12 +75,15 @@
       <div class="tab-panel" id="panel-measurements" role="tabpanel">
         <h2>Measurements</h2>
         <p class="results-intro">
-          Each value below is shown next to a commonly-cited reference range, described neutrally
-          — not scored, ranked, or combined into a single number.
+          Each value below is shown next to a commonly-cited reference range, described neutrally.
+          No individual measurement is ranked against another. A single compiled score appears at
+          the bottom, based only on proximity to these reference ranges — see its own description
+          for exactly how it's calculated.
         </p>
         <div id="resultsGroups">
           <p class="empty-state">Capture a webcam frame or upload a photo, then submit it to see measurements here.</p>
         </div>
+        <div id="compositeScoreContainer"></div>
         <details class="raw-output">
           <summary>View raw data (JSON)</summary>
           <pre id="metricsOutput"></pre>
@@ -104,7 +107,7 @@
         <h2>History</h2>
         <p class="results-intro">
           Saving is optional and per-photo — nothing is stored unless you click "Save this
-          result" above. This is a plain log of snapshots, not a score or trend tracker.
+          result" above. This is a plain log of snapshots, not a trend tracker across saves.
         </p>
         <div class="history-controls">
           <button id="refreshHistory" type="button">Refresh</button>
@@ -117,6 +120,7 @@
           <p id="historyDetailMeta" class="history-detail-meta"></p>
           <h3>Measurements</h3>
           <div id="historyDetailMeasurements"></div>
+          <div id="historyDetailCompositeScore"></div>
           <h3>Style suggestions</h3>
           <div id="historyDetailShapeSummary"></div>
           <div id="historyDetailStyleGroups"></div>

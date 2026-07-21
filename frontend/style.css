@@ -170,6 +170,37 @@ button:not(:disabled):hover, .file-btn:hover { border-color: var(--accent); }
   font-size: 0.7rem;
 }
 
+/* Compiled composite score */
+.composite-score-card {
+  margin-top: 2rem;
+  padding: 1.25rem 1.5rem;
+  background: #fafafa;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.composite-score-card h3 {
+  margin: 0 0 0.4rem;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #777;
+}
+
+.composite-score-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--fg);
+}
+
+.composite-score-desc {
+  margin: 0.5rem 0 0;
+  font-size: 0.8rem;
+  color: #666;
+  line-height: 1.45;
+  max-width: 46rem;
+}
+
 /* Tabs */
 .tabs {
   display: flex;

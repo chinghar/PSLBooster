@@ -1,6 +1,8 @@
-// Phase 3: renders computed metrics as plain, neutrally-worded cards.
-// Deliberately does not compute or display any combined/aggregate value —
-// each card stands alone.
+// Renders computed metrics as plain, neutrally-worded cards. Each of the 15
+// cards stands alone; the one combined value (the 0-10 composite score) is
+// rendered separately by renderCompositeScore, always below and visually
+// distinct from the individual measurements — see compositeScore.js for how
+// it's computed.
 
 function formatValue(m) {
   if (m.unit.startsWith("%")) return `${m.value}%`;
@@ -97,4 +99,28 @@ export function renderResults(metrics, container) {
 
     container.appendChild(section);
   }
+}
+
+export function renderCompositeScore(score, container) {
+  container.innerHTML = "";
+
+  const card = document.createElement("div");
+  card.className = "composite-score-card";
+
+  const heading = document.createElement("h3");
+  heading.textContent = "Compiled score";
+  card.appendChild(heading);
+
+  const value = document.createElement("div");
+  value.className = "composite-score-value";
+  value.textContent = `${score.toFixed(1)} / 10`;
+  card.appendChild(value);
+
+  const desc = document.createElement("p");
+  desc.className = "composite-score-desc";
+  desc.textContent =
+    "Average proximity of the 15 measurements above to their own commonly-cited reference ranges, rescaled to 0–10. It reflects proximity to those reference bands only — not attractiveness, health, or worth.";
+  card.appendChild(desc);
+
+  container.appendChild(card);
 }
